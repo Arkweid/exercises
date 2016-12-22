@@ -1,10 +1,3 @@
-TERRAIN = [
-  [1, 1, 1, 0],
-  [1, 0, 1, 0],
-  [1, 0, 1, 0],
-  [0, 0, 1, 1]
-]
-
 class PathFinder
   attr_reader :terrain, :position
 
@@ -101,8 +94,3 @@ class PathFinder
     terrain[position.y + 1]
   end
 end
-
-task = PathFinder.new(TERRAIN)
-
-task.find_way
-p task.terrain
