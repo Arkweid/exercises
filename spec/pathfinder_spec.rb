@@ -1,4 +1,4 @@
-require_relative '../pathdinder'
+require_relative '../pathfinder'
 
 RSpec.describe PathFinder do
   let(:example) {[
@@ -18,6 +18,6 @@ RSpec.describe PathFinder do
 
   it "should be true" do
     subject.find_way
-    subject.terrain.to eql right_way
+    subject.terrain.should eq right_way
   end
 end
