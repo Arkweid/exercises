@@ -1,3 +1,11 @@
+# Постановка задачи:
+# Робот стоит в левом верхнем углу сетки, состоящей из r строк и с столбцов.
+# Робот может перемещаться в двух направлениях: вправо и вниз, но некоторые
+# ячейки сетки заблокированы, то есть робот через них проходить не может.
+# Разработайте алгоритм построения маршрута от левого верхнего до правого
+# нижнего угла.
+
+
 class PathFinder
   attr_reader :terrain, :position
 
@@ -9,13 +17,13 @@ class PathFinder
   end
 
   def find_way
-    if can_down?
-      go_down
+    if can_move_down?
+      move_down
       find_way
     end
 
-    if can_right?
-      go_right
+    if can_move_right?
+      move_right
       find_way
     end
 
@@ -23,32 +31,30 @@ class PathFinder
   end
 
   def print_path
-    terrain.each do |line|
-      p line
-    end
+    terrain.each { |line| p line }
     p position.actions
   end
 
   private
 
-  def can_down?
-    return false unless border_y?
+  def can_move_down?
+    return false unless cross_border_y?
 
     terrain[position.y + 1][position.x] == 1
   end
 
-  def go_down
+  def move_down
     position.y += 1
-    memorize_action(__callee__)
+    memorize_action(:move_down)
   end
 
-  def can_right?
+  def can_move_right?
     terrain[position.y][position.x + 1] == 1
   end
 
-  def go_right
+  def move_right
     position.x += 1
-    memorize_action(__callee__)
+    memorize_action(:move_right)
   end
 
   def return_up
@@ -74,9 +80,9 @@ class PathFinder
   def back
     wrong_find_way
     case position.actions.last
-    when :go_right
+    when :move_right
       return_left
-    when :go_down
+    when :move_down
       return_up
     end
     dememorize_action
@@ -90,7 +96,7 @@ class PathFinder
     position.y == terrain.size - 1 && position.x == terrain.last.size - 1
   end
 
-  def border_y?
+  def cross_border_y?
     terrain[position.y + 1]
   end
 end
